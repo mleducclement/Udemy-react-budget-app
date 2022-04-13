@@ -22,17 +22,34 @@ const Expenses = ({ expenses }) => {
       return expense;
   });
 
-  return (
-    <div>
-      <Card className="expenses">
-        <ExpenseFilter
-          selected={filteredYear}
-          onFilterChange={filterChangeHandler}
-        />
+  const sortedFilterExpenses = filteredExpenses.sort((a, b) => {
+    return b.date.getTime() - a.date.getTime();
+  });
+
+  const filteredElements = () => {
+    if (sortedFilterExpenses.length === 0) {
+      return (
+        <Card className="expenses">
+          <Card className="expenses-list__fallback">No expenses found</Card>
+        </Card>
+      );
+    }
+    return (
+      <div>
         <ExpensesChart expenses={filteredExpenses} />
         <ExpensesList filteredExpenses={filteredExpenses} />
-      </Card>
-    </div>
+      </div>
+    );
+  };
+
+  return (
+    <Card className="expenses">
+      <ExpenseFilter
+        selected={filteredYear}
+        onFilterChange={filterChangeHandler}
+      />
+      {filteredElements()}
+    </Card>
   );
 };
 
