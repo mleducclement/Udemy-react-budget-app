@@ -19,12 +19,21 @@ const ExpenseForm = ({ onSaveExpenseData, closeForm }) => {
     setEnteredDate(e.target.value);
   };
 
+  const toTitleCase = (str) => {
+    const strArray = str.split(" ");
+    return strArray
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
 
     const expenseData = {
-      title: enteredTitle,
-      amount: enteredAmount,
+      title: toTitleCase(enteredTitle),
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
